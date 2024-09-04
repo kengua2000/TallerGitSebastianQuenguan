@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Números a Letras</title>
+   
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Traductor de Números a Letras</h2>
+        <div class="form-group">
+            <label for="numero">Ingresa un número (0-999):</label>
+            <input type="text" id="numero" class="form-control" placeholder="Ej. 150">
+        </div>
+        <button id="traducirBtn" class="btn btn-primary">Traducir a Letras</button>
+
+        <h3 class="mt-4">Resultado:</h3>
+        <p id="resultado" class="font-weight-bold"></p>
+    </div>
+
+    <script>
+       
+        function numberToWords(num) {
+            const unidades = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+            const decenas = ["", "DIEZ", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+            const especiales = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
+            
+            if (isNaN(num) || num < 0 || num > 999) return "Por favor, introduce un número válido entre 0 y 999.";
+            
+            if (num === 0) return "CERO";
+
+            let letras = "";
+            
+            if (num >= 100) {
+                if (num < 200) {
+                    letras = "CIENTO ";
+                } else {
+                    letras = unidades[Math.floor(num / 100)] + "CIENTOS ";
+                }
+                num %= 100;
+            }
+            
+            if (num >= 20) {
+                letras += decenas[Math.floor(num / 10)];
+                if (num % 10 > 0) letras += " Y " + unidades[num % 10];
+            } else if (num >= 10) {
+                letras += especiales[num - 10];
+            } else if (num > 0) {
+                letras += unidades[num];
+            }
+            
+            return letras.trim();
+        }
+
+        document.getElementById("traducirBtn").addEventListener("click", function() {
+            const numero = parseInt(document.getElementById("numero").value);
+            const resultado = numberToWords(numero);
+            document.getElementById("resultado").innerText = resultado;
+        });
+    </script>
+</body>
+</html>
